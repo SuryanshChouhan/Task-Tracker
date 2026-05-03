@@ -19,13 +19,30 @@ const app = express();
 const port = process.env.PORT || 4000;
 
 app.use(express.json());
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL || "*",
-    credentials: true
-  })
-);
 
+/* ✅ FIXED CORS CONFIG */
+const allowedOrigin = process.env.CLIENT_URL?.replace(/\/$/, "");
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || origin === allowedOrigin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
+}));
+
+/* ✅ HANDLE PREFLIGHT REQUESTS */
+app.options("*", cors());
+
+/* ✅ TEST ROUTE (optional but useful) */
+app.get("/", (req, res) => {
+  res.send("Backend is running 🚀");
+});
+
+/* ROUTES */
 app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/tasks", taskRoutes);
@@ -33,6 +50,7 @@ app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/teams", teamRoutes);
 app.use("/api/users", userRoutes);
 
+/* ERROR HANDLING */
 app.use(notFoundHandler);
 app.use(errorHandler);
 
@@ -40,25 +58,21 @@ app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 
+/* SUPER ADMIN SETUP */
 async function ensureSuperAdmin() {
   const email = process.env.SUPER_ADMIN_EMAIL;
   const password = process.env.SUPER_ADMIN_PASSWORD;
 
-  if (!email || !password) {
-    return;
-  }
+  if (!email || !password) return;
 
   const existing = await findByEmail(email);
-  if (existing) {
-    return;
-  }
+  if (existing) return;
 
   const count = await countSuperAdmins();
-  if (count > 0) {
-    return;
-  }
+  if (count > 0) return;
 
   const passwordHash = await bcrypt.hash(password, 10);
+
   await createUser({
     name: "Super Admin",
     email,
