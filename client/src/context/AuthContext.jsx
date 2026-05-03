@@ -26,12 +26,22 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     const data = await loginUser({ email, password });
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(data));
+    } catch (error) {
+      // ignore storage failures
+    }
     setAuth(data);
     return data;
   };
 
   const signup = async (payload) => {
     const data = await signupUser(payload);
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(data));
+    } catch (error) {
+      // ignore storage failures
+    }
     setAuth(data);
     return data;
   };
