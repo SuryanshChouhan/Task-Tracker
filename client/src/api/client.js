@@ -28,6 +28,14 @@ export async function request(path, options = {}) {
 
   const payload = await response.json().catch(() => ({}));
 
+  if (response.status === 401) {
+    localStorage.removeItem("ttm_auth");
+    if (typeof window !== "undefined") {
+      window.location.assign("/login");
+    }
+    throw new Error("Session expired. Please log in again.");
+  }
+
   if (!response.ok || payload.success === false) {
     const message = payload?.error?.message || "Request failed";
     throw new Error(message);
