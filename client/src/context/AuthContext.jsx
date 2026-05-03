@@ -8,7 +8,7 @@ function getStoredAuth() {
   try {
     const raw = localStorage.getItem(storageKey);
     return raw ? JSON.parse(raw) : null;
-  } catch (error) {
+  } catch {
     return null;
   }
 }
@@ -42,7 +42,9 @@ export function AuthProvider({ children }) {
 
   const value = useMemo(() => ({ auth, login, signup, logout }), [auth]);
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+  );
 }
 
 export function useAuth() {
