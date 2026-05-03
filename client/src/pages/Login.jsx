@@ -36,7 +36,7 @@ export default function Login() {
             className="rounded-xl border border-slate/20 bg-white px-4 py-2 text-sm font-semibold text-ink shadow-sm transition hover:bg-slate/10"
             onClick={() => {
               setEmail("suryansh@super.com");
-              setPassword("admin12");
+              setPassword("qwert12");
             }}
           >
             Use Super Admin
