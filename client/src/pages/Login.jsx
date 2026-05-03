@@ -30,6 +30,28 @@ export default function Login() {
       <div className="card-glass rounded-3xl p-8 shadow-lg">
         <h1 className="text-3xl font-semibold">Welcome back</h1>
         <p className="mt-2 text-sm text-slate">Log in to manage your team workload.</p>
+        <div className="mt-5 flex flex-wrap gap-3">
+          <button
+            type="button"
+            className="rounded-xl border border-slate/20 bg-white px-4 py-2 text-sm font-semibold text-ink shadow-sm transition hover:bg-slate/10"
+            onClick={() => {
+              setEmail("suryansh@super.com");
+              setPassword("admin12");
+            }}
+          >
+            Use Super Admin
+          </button>
+          <button
+            type="button"
+            className="rounded-xl border border-slate/20 bg-white px-4 py-2 text-sm font-semibold text-ink shadow-sm transition hover:bg-slate/10"
+            onClick={() => {
+              setEmail("amanmember@member.com");
+              setPassword("member12");
+            }}
+          >
+            Use Member
+          </button>
+        </div>
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           <label className="block text-sm font-medium">
             Email
