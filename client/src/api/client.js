@@ -28,7 +28,8 @@ export async function request(path, options = {}) {
 
   const payload = await response.json().catch(() => ({}));
 
-  if (response.status === 401) {
+  const isAuthRequest = path.startsWith("/api/auth/");
+  if (response.status === 401 && !isAuthRequest && token) {
     localStorage.removeItem("ttm_auth");
     if (typeof window !== "undefined") {
       window.location.assign("/login");
