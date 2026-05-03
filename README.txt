@@ -1,10 +1,10 @@
-# ETHARA Task Tracker
+ETHARA Task Tracker
 
 A full-stack team task manager with role-based access control, team and project tracking, and role-specific dashboards.
 
 Live URL: https://task-tracker-production-d2d1.up.railway.app/
 
-## Demo Accounts
+Demo Accounts
 - Super Admin
   - Email: suryansh@super.com
   - Password: qwert12
@@ -12,7 +12,7 @@ Live URL: https://task-tracker-production-d2d1.up.railway.app/
   - Email: amanmember@member.com
   - Password: member12
 
-## Features
+Features
 - JWT authentication with bcrypt password hashing
 - Role-based access control: super_admin, admin, member
 - Admin tooling for teams, projects, tasks, and member assignment
@@ -20,14 +20,13 @@ Live URL: https://task-tracker-production-d2d1.up.railway.app/
 - Role-specific dashboards with task status summaries and performance views
 - Project and team membership management
 
-## Tech Stack
+Tech Stack
 - Frontend: React + Vite + TailwindCSS
 - Backend: Node.js + Express
 - Database: PostgreSQL
 - Auth: JWT + bcrypt
 
-## Project Structure
-```
+Project Structure
 /client
   /src
     /api
@@ -43,9 +42,8 @@ Live URL: https://task-tracker-production-d2d1.up.railway.app/
 .env.example
 README.md
 README.txt
-```
 
-## API Overview
+API Overview
 Base path: /api
 
 Auth
@@ -79,24 +77,20 @@ Users
 - PUT /users/:id/team (admin, super_admin)
 
 Response format:
-```
 {
   "success": true,
   "data": { ... },
   "error": null
 }
-```
 
 Errors:
-```
 {
   "success": false,
   "data": null,
   "error": { "field": "...", "message": "..." }
 }
-```
 
-## Database Schema
+Database Schema
 Primary tables:
 - users (role: super_admin | admin | member)
 - teams, team_members
@@ -104,13 +98,10 @@ Primary tables:
 - tasks (status: pending | in_progress | completed, priority: low | medium | high)
 
 Run the reset migration (drops and recreates tables):
-```
 psql "${DATABASE_URL}" -f server/migrations/003_reset.sql
-```
 
-## Environment Variables
+Environment Variables
 Root .env (server):
-```
 PORT=4000
 DATABASE_URL=postgresql://username:password@localhost:5432/team_task_manager
 JWT_SECRET=replace_with_secure_secret
@@ -118,39 +109,30 @@ CLIENT_URL=http://localhost:5173
 VITE_API_URL=http://localhost:4000
 SUPER_ADMIN_EMAIL=suryansh@super.com
 SUPER_ADMIN_PASSWORD=qwert12
-```
 
 Client .env (client/.env):
-```
 VITE_API_URL=http://localhost:4000
-```
 
 Notes:
 - SUPER_ADMIN_* is used at startup to seed the first super admin if none exists.
 - CLIENT_URL must match the frontend origin for CORS.
 
-## Local Setup
+Local Setup
 1) Install dependencies
-```
 cd server
 npm install
 cd ../client
 npm install
-```
 
 2) Run backend
-```
 cd server
 npm run dev
-```
 
 3) Run frontend
-```
 cd client
 npm run dev
-```
 
-## Scripts
+Scripts
 Client
 - npm run dev
 - npm run build
@@ -160,6 +142,6 @@ Server
 - npm run dev
 - npm start
 
-## Troubleshooting
+Troubleshooting
 - 401 after login usually means token missing or invalid; clear site data and log in again.
 - CORS errors: verify CLIENT_URL matches the frontend URL.
